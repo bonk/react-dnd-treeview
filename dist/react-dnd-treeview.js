@@ -247,7 +247,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
 	});
-	exports.TreeViewItemList = exports.DraggableTreeViewItem = undefined;
+	exports.TreeViewItemListEmpty = exports.TreeViewItemList = exports.DraggableTreeViewItem = undefined;
 	
 	var _immutable = __webpack_require__(8);
 	
@@ -283,7 +283,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	        props.node.isCollapsed ? null : _react2.default.createElement(
 	            "div",
 	            { className: props.classNames.nodeChildren },
-	            props.node.children ? _react2.default.createElement(TreeViewItemList, { parentNode: props.node, nodes: props.node.children, classNames: props.classNames, renderNode: props.renderNode, onMoveNode: props.onMoveNode }) : null
+	            props.node.children ? props.node.children.items.count() > 0 ? _react2.default.createElement(TreeViewItemList, { parentNode: props.node, nodes: props.node.children, classNames: props.classNames, renderNode: props.renderNode, onMoveNode: props.onMoveNode }) : _react2.default.createElement(TreeViewItemListEmpty, { parentNode: props.node, nodes: {
+	                    items: _immutable2.default.List([{
+	                        id: 'dummy', title: 'dummy'
+	                    }])
+	                }, classNames: props.classNames, renderNode: props.renderNode, onMoveNode: props.onMoveNode }) : null
 	        )
 	    ));
 	};
@@ -329,6 +333,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	                index === 0 ? _react2.default.createElement(_InsertTarget.DroppableTreeViewInsertTarget, { insertBefore: true, parentNode: props.parentNode, parentChildIndex: index, precedingNode: null, onMoveNode: props.onMoveNode }) : null,
 	                _react2.default.createElement(_InsertTarget.DroppableTreeViewInsertTarget, { insertBefore: false, parentNode: props.parentNode, parentChildIndex: index + 1, precedingNode: node.node, onMoveNode: props.onMoveNode }),
 	                _react2.default.createElement(DraggableTreeViewItem, { parentNode: props.parentNode, parentChildIndex: index, precedingNode: node.precedingNode, node: node.node, classNames: props.classNames, renderNode: props.renderNode, onMoveNode: props.onMoveNode })
+	            );
+	        })
+	    );
+	};
+	var TreeViewItemListEmpty = exports.TreeViewItemListEmpty = function TreeViewItemListEmpty(props) {
+	    return _react2.default.createElement(
+	        "div",
+	        { className: props.classNames.nodeList },
+	        nodesWithPredecessors(props.nodes.items).map(function (node, index) {
+	            return _react2.default.createElement(
+	                "div",
+	                { key: node.node.id, style: { position: "relative" }, className: props.classNames.nodePositioningWrapper },
+	                index === 0 ? _react2.default.createElement(_InsertTarget.DroppableTreeViewInsertTarget, { insertBefore: true, parentNode: props.parentNode, parentChildIndex: index, precedingNode: null, onMoveNode: props.onMoveNode }) : null,
+	                _react2.default.createElement(_InsertTarget.DroppableTreeViewInsertTarget, { insertBefore: false, parentNode: props.parentNode, parentChildIndex: index + 1, precedingNode: node.node, onMoveNode: props.onMoveNode })
 	            );
 	        })
 	    );
